@@ -7,7 +7,7 @@ import (
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
 	// Write the response to the client
-	fmt.Fprint(w, "Hello, Team!")
+	fmt.Fprint(w, "Hello, and welcome to the terradome!")
 }
 
 func main() {
