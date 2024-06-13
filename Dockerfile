@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Build your Go application
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o server
+RUN CGO_ENABLED=0 GOOS=linux go build -o server
 
 # Use a minimal base image for the final image
 FROM alpine:latest
