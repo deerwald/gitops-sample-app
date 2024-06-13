@@ -29,3 +29,30 @@ jobs:
         push: true
         tags: ahromis/go-server:${{ github.sha }} , ahromis/go-server:latest
 
+  change-version:
+    name: Commit new version to deploy repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the other repository
+        uses: actions/checkout@v2
+        with:
+          repository: 'deerwald/gitops-sample-deploy'
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          path: 'gitops-sample-deploy'
+
+      - name: Update Image Tag Values
+        run: |
+          chart_dir="gitops-sample-deploy/chart"
+          new_image_tag=${{ github.sha }}
+
+          # Update the values.yaml file with the new image tag
+          sed -i "s/^  tag: .*/  tag: $new_image_tag/" "$chart_dir/values.yaml"
+
+      - name: Commit and push
+        run: |
+          cd gitops-sample-deploy
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add chart/values.yaml
+          git commit -m "Update image tag"
+          git push
