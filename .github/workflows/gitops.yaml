@@ -30,6 +30,7 @@ jobs:
         tags: ahromis/go-server:${{ github.sha }} , ahromis/go-server:latest
 
   change-version:
+    needs: build
     name: Commit new version to deploy repo
     runs-on: ubuntu-latest
     steps:
