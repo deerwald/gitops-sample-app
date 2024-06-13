@@ -5,7 +5,7 @@ metadata:
 spec:
   destination:
     name: 'in-cluster'
-    namespace: 'prod'
+    namespace: 'gitops-sample'
   source:
     path: 'chart'
     repoURL: 'https://github.com/deerwald/gitops-sample-deploy'
@@ -17,3 +17,7 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+    automated:
+      prune: false
+      selfHeal: false
+
