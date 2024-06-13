@@ -8,7 +8,7 @@ spec:
     namespace: 'prod'
   source:
     path: 'chart'
-    repoURL: 'https://github.com/ahromis-test-org/gitops-sample-deploy'
+    repoURL: 'https://github.com/deerwald/gitops-sample-deploy'
     targetRevision: HEAD
     helm:
       valueFiles:
