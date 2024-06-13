@@ -12,10 +12,17 @@ jobs:
   build:
     name: Build and Push the image
     runs-on: ubuntu-latest
+    outputs:
+      commit_message: ${{ steps.commit_message.outputs.message }}
     
     steps:
     - name: Check out code
       uses: actions/checkout@v2
+    - name: Get commit message
+        id: commit_message
+        run: |
+          COMMIT_MESSAGE=$(git log --format=%B -n 1)
+          echo "message=$COMMIT_MESSAGE" >> $GITHUB_OUTPUT
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
@@ -51,10 +58,9 @@ jobs:
 
       - name: Commit and push
         run: |
-          COMMIT_MESSAGE=$(git log --format=%B -n 1)
           cd gitops-sample-deploy
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add chart/values.yaml
-          git commit -m "$COMMIT_MESSAGE"
+          git commit -m "${{ needs.build.outputs.commit_message }}"
           git push
